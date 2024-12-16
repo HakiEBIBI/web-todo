@@ -1,13 +1,22 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/todo.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Web todolist project</title>
-  </head>
-  <body>
-    <h1>Web todolist app</h1>
-    <script type="module" src="/src/main.ts"></script>
-  </body>
+<head>
+  <meta charset="UTF-8"/>
+  <link rel="icon" type="image/svg+xml" href="/todo.svg"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Web todolist project</title>
+</head>
+<body>
+<h1 class="title-site">Web todolist app</h1>
+<p class="title-todo">My To Do List</p>
+<div class="all-todo-input">
+  <input id="todo-input" type="text" placeholder="add your todo">
+  <button id="add-todo-button">Add</button>
+</div>
+<ul id="todo-element">
+
+</ul>
+
+<script type="module" src="/src/main.ts"></script>
+</body>
 </html>
