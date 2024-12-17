@@ -7,3 +7,26 @@ body {
 * {
   font-family: Helvetica, Arial, sans-serif;
 }
+
+.title-site {
+  display: flex;
+  justify-content: center;
+}
+
+.title-todo {
+  margin: 0px;
+  display: flex;
+  justify-content: center;
+}
+
+.all-todo-input {
+  display: flex;
+  justify-content: center;
+}
+
+#todo-element {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding: 0px;
+}
