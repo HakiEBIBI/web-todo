@@ -17,8 +17,8 @@ if (buttonBox && inputBox && listBox) {
       const li = document.createElement('li')
       li.textContent = todoText
       button.textContent = 'delete'
+      li.appendChild(button)
       listBox.appendChild(li)
-      listBox.appendChild(button)
       inputBox.value = ''
 
       button.addEventListener('click', () => {

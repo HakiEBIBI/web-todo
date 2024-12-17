@@ -29,16 +29,16 @@ body {
 }
 
 #todo-element {
-  display: grid;
-  align-items: center;
-  justify-items: center;
+  display: flex;
+  justify-content: center;
   flex-direction: column;
-  width: 100px;
-  height: 70px;
-  padding: 0px;
   list-style: none;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 10px;
-  grid-template-columns: 1fr 1fr;
+  padding: 0px;
+}
+
+li  {
+  display: flex;
+  padding: 5px;
+  justify-content: center;
+  gap: 10px;
 }
