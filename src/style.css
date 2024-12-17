@@ -19,14 +19,26 @@ body {
   justify-content: center;
 }
 
+#todo-input {
+  margin-right: 10px;
+}
+
 .all-todo-input {
   display: flex;
   justify-content: center;
 }
 
 #todo-element {
-  display: flex;
+  display: grid;
   align-items: center;
+  justify-items: center;
   flex-direction: column;
+  width: 100px;
+  height: 70px;
   padding: 0px;
+  list-style: none;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 10px;
+  grid-template-columns: 1fr 1fr;
 }
