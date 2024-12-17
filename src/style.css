@@ -19,6 +19,10 @@ body {
   justify-content: center;
 }
 
+#todo-input {
+  margin-right: 10px;
+}
+
 .all-todo-input {
   display: flex;
   justify-content: center;
@@ -26,7 +30,15 @@ body {
 
 #todo-element {
   display: flex;
-  align-items: center;
+  justify-content: center;
   flex-direction: column;
+  list-style: none;
   padding: 0px;
+}
+
+li {
+  display: flex;
+  padding: 5px;
+  justify-content: center;
+  gap: 10px;
 }
