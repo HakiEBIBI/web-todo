@@ -27,4 +27,9 @@ if (buttonBox && inputBox && listBox) {
       })
     }
   })
+  inputBox.addEventListener('keydown', (event: KeyboardEvent) => {
+    if (event.key === 'Enter') {
+      buttonBox.click()
+    }
+  })
 }
