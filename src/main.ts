@@ -12,7 +12,6 @@ if (buttonBox && inputBox && listBox) {
 
     const checkbox = document.createElement('input')
     checkbox.type = 'checkbox'
-    checkbox.addEventListener('type', () => {})
 
     const button = document.createElement('button')
     button.addEventListener('click', () => {})
