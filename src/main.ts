@@ -7,28 +7,70 @@ const listBox = document.querySelector<HTMLUListElement>('#todo-element')
 const buttonBox = document.querySelector<HTMLButtonElement>('#add-todo-button')
 
 if (buttonBox && inputBox && listBox) {
-  buttonBox.addEventListener('click', () => {
-    const todoText = inputBox.value
+  const todos = JSON.parse(localStorage.getItem('todos') || '[]')
+
+  for (let i = 0; i < todos.length; i++) {
+    const todo = todos[i]
+
+    const li = document.createElement('li')
+    li.textContent = todo.text
 
     const checkbox = document.createElement('input')
     checkbox.type = 'checkbox'
+    checkbox.checked = todo.completed
 
     const button = document.createElement('button')
-    button.addEventListener('click', () => {})
+    button.textContent = 'delete'
+
+    li.appendChild(checkbox)
+    li.appendChild(button)
+    listBox.appendChild(li)
+
+    checkbox.addEventListener('change', () => {
+      todo.completed = checkbox.checked
+      localStorage.setItem('todos', JSON.stringify(todos))
+    })
+
+    button.addEventListener('click', () => {
+      todos.splice(i, 1)
+      localStorage.setItem('todos', JSON.stringify(todos))
+      li.remove()
+    })
+  }
+
+  buttonBox.addEventListener('click', () => {
+    const todoText = inputBox.value
 
     if (todoText.trim() !== '') {
+      const todo = { text: todoText, completed: false }
+      todos.push(todo)
+      localStorage.setItem('todos', JSON.stringify(todos))
+
       const li = document.createElement('li')
       li.textContent = todoText
-      checkbox.textContent = 'done'
+
+      const checkbox = document.createElement('input')
+      checkbox.type = 'checkbox'
+
+      const button = document.createElement('button')
       button.textContent = 'delete'
       li.appendChild(checkbox)
       li.appendChild(button)
       listBox.appendChild(li)
       inputBox.value = ''
 
+      checkbox.addEventListener('change', () => {
+        todo.completed = checkbox.checked
+        localStorage.setItem('todos', JSON.stringify(todos))
+      })
+
       button.addEventListener('click', () => {
-        li.remove()
-        button.remove()
+        const index = todos.indexOf(todo)
+        if (index !== -1) {
+          todos.splice(index, 1)
+          localStorage.setItem('todos', JSON.stringify(todos))
+          li.remove()
+        }
       })
     }
   })
