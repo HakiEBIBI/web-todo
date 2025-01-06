@@ -9,6 +9,10 @@ const buttonBox = document.querySelector<HTMLButtonElement>('#add-todo-button')
 if (buttonBox && inputBox && listBox) {
   const todos = JSON.parse(localStorage.getItem('todos') || '[]')
 
+  const saveTodos = () => {
+    localStorage.setItem('todos', JSON.stringify(todos))
+  }
+
   for (let i = 0; i < todos.length; i++) {
     const todo = todos[i]
 
@@ -28,12 +32,12 @@ if (buttonBox && inputBox && listBox) {
 
     checkbox.addEventListener('change', () => {
       todo.completed = checkbox.checked
-      localStorage.setItem('todos', JSON.stringify(todos))
+      saveTodos()
     })
 
     button.addEventListener('click', () => {
       todos.splice(i, 1)
-      localStorage.setItem('todos', JSON.stringify(todos))
+      saveTodos()
       li.remove()
     })
   }
@@ -44,7 +48,7 @@ if (buttonBox && inputBox && listBox) {
     if (todoText.trim() !== '') {
       const todo = { text: todoText, completed: false }
       todos.push(todo)
-      localStorage.setItem('todos', JSON.stringify(todos))
+      saveTodos()
 
       const li = document.createElement('li')
       li.textContent = todoText
@@ -54,6 +58,7 @@ if (buttonBox && inputBox && listBox) {
 
       const button = document.createElement('button')
       button.textContent = 'delete'
+
       li.appendChild(checkbox)
       li.appendChild(button)
       listBox.appendChild(li)
@@ -61,14 +66,14 @@ if (buttonBox && inputBox && listBox) {
 
       checkbox.addEventListener('change', () => {
         todo.completed = checkbox.checked
-        localStorage.setItem('todos', JSON.stringify(todos))
+        saveTodos()
       })
 
       button.addEventListener('click', () => {
         const index = todos.indexOf(todo)
         if (index !== -1) {
           todos.splice(index, 1)
-          localStorage.setItem('todos', JSON.stringify(todos))
+          saveTodos()
           li.remove()
         }
       })
