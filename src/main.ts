@@ -5,6 +5,7 @@ console.log('Hello from typescript')
 const inputBox = document.querySelector<HTMLInputElement>('#todo-input')
 const listBox = document.querySelector<HTMLUListElement>('#todo-element')
 const buttonBox = document.querySelector<HTMLButtonElement>('#add-todo-button')
+const datetime = document.querySelector<HTMLInputElement>('#datetime-input')
 
 const todos = JSON.parse(localStorage.getItem('todos') || '[]')
 
@@ -12,9 +13,9 @@ const saveTodos = () => {
   localStorage.setItem('todos', JSON.stringify(todos))
 }
 
-if (buttonBox && inputBox && listBox) {
+if (buttonBox && inputBox && listBox && datetime) {
   const createTodoElement = (
-    todo: { text: string; completed: boolean },
+    todo: { text: string; completed: boolean; date: string },
     index: number,
   ) => {
     const checkbox = document.createElement('input')
@@ -25,7 +26,7 @@ if (buttonBox && inputBox && listBox) {
     button.textContent = 'delete'
 
     const li = document.createElement('li')
-    li.textContent = todo.text
+    li.textContent = `${todo.text}\xa0\xa0 - \xa0\xa0${todo.date || 'no due date'}`
     li.appendChild(checkbox)
     li.appendChild(button)
     listBox.appendChild(li)
@@ -48,13 +49,14 @@ if (buttonBox && inputBox && listBox) {
 
   buttonBox.addEventListener('click', () => {
     const todoText = inputBox.value.trim()
-
+    const saveddate = datetime.value.trim()
     if (todoText !== '') {
-      const newTodo = { text: todoText, completed: false }
+      const newTodo = { text: todoText, completed: false, date: saveddate }
       todos.push(newTodo)
       saveTodos()
       createTodoElement(newTodo, todos.length - 1)
       inputBox.value = ''
+      datetime.value = ''
     }
   })
 
