@@ -9,8 +9,16 @@ const datetime = document.querySelector<HTMLInputElement>('#datetime-input')
 const errorBox = document.querySelector<HTMLParagraphElement>(
   '#todo-creation-error',
 )
+const deleteAllButton = document.querySelector<HTMLButtonElement>('#delete-all')
 
-if (inputBox && listBox && buttonBox && datetime && errorBox) {
+if (
+  inputBox &&
+  listBox &&
+  buttonBox &&
+  datetime &&
+  errorBox &&
+  deleteAllButton
+) {
   const todos = JSON.parse(localStorage.getItem('todos') || '[]')
 
   const saveTodos = () => {
@@ -24,13 +32,20 @@ if (inputBox && listBox && buttonBox && datetime && errorBox) {
       saveTodos()
     }
   }
-
+  // function to delete a single todo
   const handleDeleteClick = (index: number, li: HTMLLIElement) => {
     return () => {
       todos.splice(index, 1)
       saveTodos()
       li.remove()
     }
+  }
+
+  // Function to delete all todos
+  const removeAllTodos = () => {
+    todos.length = 0
+    saveTodos()
+    listBox.innerHTML = ''
   }
 
   const createTodoElement = (
@@ -108,4 +123,5 @@ if (inputBox && listBox && buttonBox && datetime && errorBox) {
 
   buttonBox.addEventListener('click', handleAddTodo)
   inputBox.addEventListener('keydown', handleKeyPress)
+  deleteAllButton.addEventListener('click', removeAllTodos)
 }
