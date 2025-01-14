@@ -46,3 +46,9 @@ li {
 #datetime-input {
   margin-right: 10px;
 }
+
+#todo-creation-error {
+  display: flex;
+  justify-content: center;
+  color: red;
+}
