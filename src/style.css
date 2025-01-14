@@ -52,3 +52,7 @@ li {
   justify-content: center;
   color: red;
 }
+
+#delete-all {
+  margin-left: 10px;
+}
