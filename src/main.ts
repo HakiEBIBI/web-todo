@@ -48,6 +48,23 @@ if (
     listBox.innerHTML = ''
   }
 
+  const changeColorDate = (element: HTMLElement, dueDate: string) => {
+    const currentDate = new Date()
+    const parsedDate = new Date(dueDate)
+    const diffTime = parsedDate.getTime() - currentDate.getTime()
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
+
+    if (diffDays < 0) {
+      element.classList.add('red')
+    } else if (diffDays === 0) {
+      element.classList.add('orange')
+    } else if (diffDays <= 4) {
+      element.classList.add('yellow')
+    } else if (diffDays > 4) {
+      element.classList.add('green')
+    }
+  }
+
   const createTodoElement = (
     todo: { text: string; completed: boolean; date: string },
     index: number,
@@ -60,10 +77,11 @@ if (
     button.textContent = 'delete'
 
     const li = document.createElement('li')
-    li.textContent = `${todo.text}\xa0\xa0 - \xa0\xa0${todo.date || 'no due date'}`
+    li.textContent = `${todo.text}\xa0\xa0 - \xa0\xa0${todo.date}`
     li.appendChild(checkbox)
     li.appendChild(button)
     listBox.appendChild(li)
+    changeColorDate(li, todo.date)
 
     checkbox.addEventListener('change', handleCheckboxChange(todo))
     button.addEventListener('click', handleDeleteClick(index, li))

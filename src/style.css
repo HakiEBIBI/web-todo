@@ -56,3 +56,20 @@ li {
 #delete-all {
   margin-left: 10px;
 }
+
+/* style.css */
+.red {
+  color: red;
+}
+
+.orange {
+  color: orange;
+}
+
+.yellow {
+  color: yellow;
+}
+
+.green {
+  color: green;
+}
