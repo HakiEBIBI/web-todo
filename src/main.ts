@@ -13,6 +13,12 @@ const deleteAllButton = document.querySelector<HTMLButtonElement>('#delete-all')
 const overdueDate =
   document.querySelector<HTMLParagraphElement>('#overdue-date')
 
+interface Todo {
+  text: string
+  completed: boolean
+  date: string
+}
+
 if (
   inputBox &&
   listBox &&
@@ -22,7 +28,7 @@ if (
   deleteAllButton &&
   overdueDate
 ) {
-  const todos = JSON.parse(localStorage.getItem('todos') || '[]')
+  const todos: Todo[] = JSON.parse(localStorage.getItem('todos') || '[]')
 
   const saveTodos = () => {
     localStorage.setItem('todos', JSON.stringify(todos))
@@ -41,7 +47,7 @@ if (
       todos.splice(index, 1)
       saveTodos()
       li.remove()
-      changeColorDate(li, '')
+      checkOverdue()
     }
   }
 
@@ -69,17 +75,17 @@ if (
     } else if (diffDays > 4) {
       element.classList.add('green')
     }
+  }
 
-    const overdueTodos = todos.filter((todo: { date: string }) => {
+  const checkOverdue = () => {
+    const overdueTodos = todos.filter((todo) => {
       const parsedDate = new Date(todo.date)
       return parsedDate < new Date()
     }).length
 
-    if (element.classList.contains('red')) {
+    if (overdueTodos > 0) {
       overdueDate.innerText = `You have ${overdueTodos} overdue todos `
-    }
-
-    if (overdueTodos === 0) {
+    } else {
       overdueDate.innerText = ''
     }
   }
@@ -101,6 +107,7 @@ if (
     li.appendChild(button)
     listBox.appendChild(li)
     changeColorDate(li, todo.date)
+    checkOverdue()
 
     checkbox.addEventListener('change', handleCheckboxChange(todo))
     button.addEventListener('click', handleDeleteClick(index, li))
