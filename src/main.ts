@@ -10,6 +10,14 @@ const errorBox = document.querySelector<HTMLParagraphElement>(
   '#todo-creation-error',
 )
 const deleteAllButton = document.querySelector<HTMLButtonElement>('#delete-all')
+const overdueDate =
+  document.querySelector<HTMLParagraphElement>('#overdue-date')
+
+interface Todo {
+  text: string
+  completed: boolean
+  date: string
+}
 
 if (
   inputBox &&
@@ -17,9 +25,10 @@ if (
   buttonBox &&
   datetime &&
   errorBox &&
-  deleteAllButton
+  deleteAllButton &&
+  overdueDate
 ) {
-  const todos = JSON.parse(localStorage.getItem('todos') || '[]')
+  const todos: Todo[] = JSON.parse(localStorage.getItem('todos') || '[]')
 
   const saveTodos = () => {
     localStorage.setItem('todos', JSON.stringify(todos))
@@ -38,6 +47,7 @@ if (
       todos.splice(index, 1)
       saveTodos()
       li.remove()
+      checkOverdue()
     }
   }
 
@@ -46,8 +56,10 @@ if (
     todos.length = 0
     saveTodos()
     listBox.innerHTML = ''
+    overdueDate.innerText = ''
   }
 
+  //function that check if the date is due and change the color of the todo
   const changeColorDate = (element: HTMLElement, dueDate: string) => {
     const currentDate = new Date()
     const parsedDate = new Date(dueDate)
@@ -62,6 +74,19 @@ if (
       element.classList.add('yellow')
     } else if (diffDays > 4) {
       element.classList.add('green')
+    }
+  }
+
+  const checkOverdue = () => {
+    const overdueTodos = todos.filter((todo) => {
+      const parsedDate = new Date(todo.date)
+      return parsedDate < new Date()
+    }).length
+
+    if (overdueTodos > 0) {
+      overdueDate.innerText = `You have ${overdueTodos} overdue todos `
+    } else {
+      overdueDate.innerText = ''
     }
   }
 
@@ -82,6 +107,7 @@ if (
     li.appendChild(button)
     listBox.appendChild(li)
     changeColorDate(li, todo.date)
+    checkOverdue()
 
     checkbox.addEventListener('change', handleCheckboxChange(todo))
     button.addEventListener('click', handleDeleteClick(index, li))
