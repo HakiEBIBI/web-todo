@@ -8,18 +8,22 @@
 </head>
 <body>
 <h1 class="title-site">Web todolist app</h1>
+<div id="all">
 <p id="todo-creation-error"></p>
 <p id="overdue-date"></p>
 <div class="all-todo-input">
+  <div id="input-and-button">
   <input id="todo-input" type="text" placeholder="add your todo">
-  <input type="date" id="datetime-input">
+    <input type="date" id="datetime-input">
   <button id="add-todo-button">Add</button>
+</div>
+
   <button id="delete-all">delete All</button>
 </div>
 <ul id="todo-element">
 
 </ul>
-
+</div>
 <script type="module" src="/src/main.ts"></script>
 </body>
 </html>
