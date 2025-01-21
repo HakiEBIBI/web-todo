@@ -8,19 +8,49 @@ body {
   font-family: Helvetica, Arial, sans-serif;
 }
 
+body {
+  background: linear-gradient(135deg, #153677, #4e085f);
+  background-attachment: fixed;
+}
 .title-site {
   display: flex;
+  color: white;
   justify-content: center;
 }
 
 .title-todo {
-  margin: 0px;
+  margin: auto;
   display: flex;
   justify-content: center;
 }
 
 #todo-input {
-  margin-right: 10px;
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  padding: 10px;
+}
+
+#input-and-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: lightgrey;
+  border-radius: 30px;
+  padding-left: 20px;
+  margin-bottom: 20px;
+}
+
+#all {
+  background-color: white;
+  padding: 10px;
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: auto;
+  border-radius: 15px;
 }
 
 .all-todo-input {
@@ -43,8 +73,39 @@ li {
   gap: 10px;
 }
 
+#add-todo-button {
+  border: none;
+  outline: none;
+  padding: 16px 50px;
+  background: #ff5945;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 40px;
+  font-weight: bold;
+}
+
+#add-todo-button:hover {
+  background: #ff4225;
+}
+
 #datetime-input {
+  background-color: #ff5945;
+  color: white;
+  padding: 10px;
+  border-radius: 10px;
   margin-right: 10px;
+  border: none;
+  cursor: pointer;
+}
+
+ul li {
+  font-size: 17px;
+  padding: 12px 8px 12px 50px;
+  background: lightgrey;
+  border-radius: 10px;
+  margin-bottom: 5px;
+  align-items: center;
 }
 
 #todo-creation-error {
@@ -55,9 +116,21 @@ li {
 
 #delete-all {
   margin-left: 10px;
+  background-color: #ff5945;
+  color: white;
+  border: none;
+  border-radius: 30px;
+  height: 51px;
+  width: 20%;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
 }
 
-/* style.css */
+#delete-all:hover {
+  background-color: #ff4225;
+}
+
 .red {
   color: red;
 }
@@ -80,4 +153,11 @@ li {
   display: flex;
   justify-content: center;
   font-weight: bold;
+}
+
+.button-delete-single-todo {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding-left: 10px;
 }

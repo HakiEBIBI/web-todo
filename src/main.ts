@@ -98,8 +98,14 @@ if (
     checkbox.type = 'checkbox'
     checkbox.checked = todo.completed
 
+    const trashButtonImage = document.createElement('img')
+    trashButtonImage.setAttribute('src', 'public/trash-can-solid.svg')
+    trashButtonImage.style.width = '20px'
+    trashButtonImage.style.height = '20px'
+
     const button = document.createElement('button')
-    button.textContent = 'delete'
+    button.append(trashButtonImage)
+    button.classList.add('button-delete-single-todo')
 
     const li = document.createElement('li')
     li.textContent = `${todo.text}\xa0\xa0 - \xa0\xa0${todo.date}`
