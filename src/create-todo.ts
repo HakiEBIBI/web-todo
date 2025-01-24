@@ -1,10 +1,10 @@
+import { changeColorDate } from './change-color-date.ts'
+import { saveTodos, todos } from './file-save.ts'
 import {
   checkOverdue,
-  handleDeleteClick,
   handleCheckboxChange,
+  handleDeleteClick,
 } from './handle-and-check.ts'
-import { changeColorDate } from './change-color-date.ts'
-import { todos, saveTodos } from './file-save.ts'
 
 export const createTodoElement = (
   todo: { text: string; completed: boolean; date: string },

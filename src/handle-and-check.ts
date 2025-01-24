@@ -1,4 +1,4 @@
-import { todos, saveTodos } from './file-save.ts'
+import { saveTodos, todos } from './file-save.ts'
 
 export const handleCheckboxChange = (todo: { completed: boolean }) => {
   return (event: Event) => {

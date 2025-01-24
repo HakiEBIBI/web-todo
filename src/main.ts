@@ -1,7 +1,7 @@
 import './style.css'
 import { createTodoElement, handleAddTodo } from './create-todo.ts'
+import { saveTodos, todos } from './file-save.ts'
 import { handleKeyPress } from './handle-and-check.ts'
-import { todos, saveTodos } from './file-save.ts'
 
 console.log('Hello from typescript')
 
