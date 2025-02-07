@@ -1,5 +1,5 @@
 import { changeColorDate } from './change-color-date.ts'
-import { saveTodos, todos } from './file-save.ts'
+import { type Todo, postTodoFetch, takeTodoFetch } from './file-save.ts'
 import {
   checkOverdue,
   handleCheckboxChange,
@@ -7,37 +7,34 @@ import {
 } from './handle-and-check.ts'
 
 export const createTodoElement = (
-  todo: { text: string; completed: boolean; date: string },
-  index: number,
+  todo: Todo,
   listBox: HTMLUListElement,
   overdueDate: HTMLParagraphElement,
 ) => {
   const checkbox = document.createElement('input')
   checkbox.type = 'checkbox'
-  checkbox.checked = todo.completed
-
+  checkbox.checked = todo.done
   const trashButtonImage = document.createElement('img')
-  trashButtonImage.setAttribute('src', 'public/trash-can-solid.svg')
+  trashButtonImage.setAttribute('src', '/web-todo/trash-can-solid.svg')
   trashButtonImage.style.width = '20px'
   trashButtonImage.style.height = '20px'
-
   const button = document.createElement('button')
   button.append(trashButtonImage)
   button.classList.add('button-delete-single-todo')
-
   const li = document.createElement('li')
-  li.textContent = `${todo.text}\xa0\xa0 - \xa0\xa0${todo.date}`
+  li.textContent = `${todo.title}\xa0\xa0 - \xa0\xa0${todo.due_date}`
   li.appendChild(checkbox)
   li.appendChild(button)
   listBox.appendChild(li)
-  changeColorDate(li, todo.date)
-  checkOverdue(overdueDate)
-
+  changeColorDate(li, todo.due_date)
   checkbox.addEventListener('change', handleCheckboxChange(todo))
-  button.addEventListener('click', handleDeleteClick(index, li, overdueDate))
+  button.addEventListener(
+    'click',
+    handleDeleteClick(todo, li, listBox, overdueDate),
+  )
 }
 
-export const handleAddTodo = (
+export const handleAddTodo = async (
   inputBox: HTMLInputElement,
   datetime: HTMLInputElement,
   errorBox: HTMLParagraphElement,
@@ -45,25 +42,18 @@ export const handleAddTodo = (
   overdueDate: HTMLParagraphElement,
 ) => {
   const todoText = inputBox.value.trim() || ''
-  const savedDate = datetime.value.trim() || 'no due date'
+  const savedDate = datetime.value.trim()
 
-  // check if text length are bigger than 200
-  if (errorBox && inputBox) {
-    if (todoText.length > 200) {
-      errorBox.innerText = 'todo cant take more than 200 characters'
-      inputBox.value = ''
-      return
-    }
+  if (todoText.length > 200) {
+    errorBox.innerText = 'todo cant take more than 200 characters'
+    inputBox.value = ''
+    return
   }
-
-  if (errorBox && inputBox) {
-    if (todoText === '') {
-      errorBox.innerText = 'please enter something'
-      inputBox.value = ''
-      return
-    }
+  if (todoText === '') {
+    errorBox.innerText = 'please enter something'
+    inputBox.value = ''
+    return
   }
-
   if (savedDate) {
     const parsedDate = new Date(savedDate)
     if (Number.isNaN(parsedDate.getTime())) {
@@ -72,19 +62,22 @@ export const handleAddTodo = (
       return
     }
   }
-
-  // put the user input in a li and clear input box and date time
   if (todoText !== '') {
     const newTodo = {
-      text: todoText,
-      completed: false,
-      date: savedDate || 'no due date',
+      title: todoText,
+      due_date: savedDate,
+      done: false,
     }
-    todos.push(newTodo)
-    saveTodos()
-    createTodoElement(newTodo, todos.length - 1, listBox, overdueDate)
-    if (inputBox) inputBox.value = ''
-    if (datetime) datetime.value = ''
+    await postTodoFetch(<Todo>newTodo, listBox, overdueDate)
+    const todos = await takeTodoFetch()
+    listBox.innerHTML = ''
+
+    for (const todo of todos) {
+      createTodoElement(todo, listBox, overdueDate)
+    }
+    checkOverdue(listBox, overdueDate)
+    inputBox.value = ''
+    datetime.value = ''
     errorBox.innerText = ''
   }
 }
