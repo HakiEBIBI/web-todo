@@ -1,36 +1,35 @@
-import { saveTodos, todos } from './file-save.ts'
+import { type Todo, deleteTodoFetch, patchTodoFetch } from './file-save.ts'
 
-export const handleCheckboxChange = (todo: { completed: boolean }) => {
-  return (event: Event) => {
+export const handleCheckboxChange = (todo: { id: number; done: boolean }) => {
+  return async (event: Event) => {
     const checkbox = event.target as HTMLInputElement
-    todo.completed = checkbox.checked
-    saveTodos()
+    todo.done = checkbox.checked
+    await patchTodoFetch(todo)
   }
 }
-// function to delete a single todo
+
 export const handleDeleteClick = (
-  index: number,
+  deletedTodo: Todo,
   li: HTMLLIElement,
+  todoElementsList: HTMLUListElement,
   overdueDate: HTMLParagraphElement,
 ) => {
-  return () => {
-    todos.splice(index, 1)
-    saveTodos()
+  return async () => {
+    await deleteTodoFetch(deletedTodo)
     li.remove()
-    checkOverdue(overdueDate)
+    checkOverdue(todoElementsList, overdueDate)
   }
 }
 
-export const checkOverdue = (overdueDate: HTMLParagraphElement) => {
-  const overdueTodos = todos.filter((todo) => {
-    const parsedDate = new Date(todo.date)
-    return parsedDate < new Date()
-  }).length
-
-  if (overdueTodos > 0) {
-    overdueDate.innerText = `You have ${overdueTodos} overdue todos `
-  } else {
-    overdueDate.innerText = ''
+export const checkOverdue = (
+  todoElementsList: HTMLUListElement,
+  overdueDate: HTMLParagraphElement,
+) => {
+  overdueDate.innerText = ''
+  for (const todo of todoElementsList.children) {
+    if (todo.classList.contains('red')) {
+      overdueDate.innerText = 'You have overdue todos'
+    }
   }
 }
 
